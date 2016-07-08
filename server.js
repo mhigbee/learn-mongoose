@@ -1,6 +1,7 @@
 var express = require('express');
 var express = require('express');
 var bodyParser = require('body-parser');
+var cors = require('cors');
 
 
 // app setup
@@ -8,9 +9,15 @@ var app = express();
 var api = require('./api/api');
 var port = 8080;
 
+
+// database setup
+var mongoJS = require('mongojs');
+var db = mongoJS.connect('trello-clone', ['lists']);
+
 // setup the app middlware
 app.use(express.static('../client'));
 app.use(bodyParser());
+app.use(cors());
 
 // setup the api
 app.get('/api/users', api.read);
