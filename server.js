@@ -1,17 +1,20 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var cors = require('cors');
-
+var mongooge = require('mongoose')
 
 // app setup
 var app = express();
-// var api = require('./api/api');
+var heroCtrl = require('./api/controllers/heroCtrl');
 var port = 8080;
 
 
+//var db = mongojs('heroes', ['lists']);`
+
+
 // database setup
-var mongoJS = require('mongojs');
-var db = mongoJS('heroes', ['lists']);
+var mongoUri = 'mongodb://localhost:27017/avengers';
+mongoose.connect(mongoUri);
 
 // setup the app middlware
 app.use(express.static('./public'));
@@ -19,10 +22,10 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // setup the api
-// app.get('/api/users', api.read);
-// app.post('/api/users', api.create);
-// app.put('/api/users', api.update);
-// app.delete('/api/users', api.destroy);
+app.get('/api/heroes', heroCtrl.read);
+app.post('/api/heroes', heroCtrl.create);
+// app.put('/api/heroes', heroCtrl.update);
+// app.delete('/api/heroes', heroCtrl.destroy);
 // set up global error handling
 
 // export the app for testing
